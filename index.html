@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Special Birthday Magical Wish ✨</title>
+    <!-- SEO Tags -->
+    <meta name="description"
+        content="Create a personalized, interactive, and gorgeous birthday wish page with games, timeline memories, custom music, and themes.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Sacramento&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body class="theme-mystic-night">
+    <!-- Background Slideshow for User Images -->
+    <div id="background-slideshow" class="background-slideshow"></div>
+    <!-- Canvas for particles / confetti / stars -->
+    <canvas id="background-canvas"></canvas>
+    <canvas id="confetti-canvas"></canvas>
+    <!-- 1. INTRO GATE (Viewer Mode only, shown before starting audio/animations) -->
+    <div id="intro-gate" class="intro-gate hidden">
+        <div class="intro-envelope-container">
+            <div class="envelope" id="main-envelope">
+                <div class="envelope-flap"></div>
+                <div class="envelope-pocket"></div>
+                <div class="envelope-card">
+                    <div class="envelope-card-content">
+                        <span class="envelope-sparkle">✨</span>
+                        <p class="envelope-teaser">A special message is waiting for you...</p>
+                        <button id="btn-open-envelope" class="btn btn-primary btn-pulse">Open Envelope 🎁</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 2. BUILDER MODE CONTAINER -->
+    <div id="builder-container" class="container builder-container">
+        <header class="app-header">
+            <div class="logo-area">
+                <span class="logo-icon">🎈</span>
+                <h1>Magic Birthday Wish Builder</h1>
+            </div>
+            <p class="subtitle">Design a stunning, interactive surprise page for someone special and share the link!</p>
+        </header>
+        <main class="builder-main">
+            <div class="wizard-progress">
+                <div class="progress-bar-fill" id="progress-bar"></div>
+                <div class="step-indicator active" data-step="1">1</div>
+                <div class="step-indicator" data-step="2">2</div>
+                <div class="step-indicator" data-step="3">3</div>
+                <div class="step-indicator" data-step="4">4</div>
+            </div>
+            <!-- STEP 1: The Birthday Star -->
+            <section class="wizard-step active" id="step-1">
+                <h2>Who is the star of the show? 🌟</h2>
+                <p class="step-description">Let's start with their details so we can personalize the magical experience.
+                </p>
+
+                <div class="form-group">
+                    <label for="star-name">What is their Name?</label>
+                    <input type="text" id="star-name" placeholder="e.g. Sarah" required>
+                </div>
+                <div class="form-group">
+                    <label for="star-relation">What are they to you?</label>
+                    <select id="star-relation">
+                        <option value="Friend">Best Friend</option>
+                        <option value="Partner">Partner / Love</option>
+                        <option value="Sister">Sister</option>
+                        <option value="Brother">Brother</option>
+                        <option value="Mother">Mother</option>
+                        <option value="Father">Father</option>
+                        <option value="Buddy">Awesome Buddy</option>
+                        <option value="Colleague">Colleague</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="star-age">How old are they turning? (Optional)</label>
+                    <input type="number" id="star-age" placeholder="e.g. 25" min="1" max="150">
+                </div>
+                <div class="step-nav">
+                    <button class="btn btn-secondary disabled" disabled>Back</button>
+                    <button class="btn btn-primary btn-next" data-next="2">Next Step →</button>
+                </div>
+            </section>
+            <!-- STEP 2: The Core Message & Theme -->
+            <section class="wizard-step" id="step-2">
+                <h2>Personalize the Vibe & Message 🎨</h2>
+                <p class="step-description">Choose how the page looks and write your heartfelt letter.</p>
+                <div class="form-group">
+                    <label>Select a Theme Visuals</label>
+                    <div class="theme-selector-grid">
+                        <label class="theme-card active" data-theme="theme-mystic-night">
+                            <input type="radio" name="theme-choice" value="theme-mystic-night" checked
+                                class="hidden-radio">
+                            <div class="theme-preview bg-mystic-night"></div>
+                            <span>Mystic Night</span>
+                        </label>
+                        <label class="theme-card" data-theme="theme-champagne-gold">
+                            <input type="radio" name="theme-choice" value="theme-champagne-gold" class="hidden-radio">
+                            <div class="theme-preview bg-champagne-gold"></div>
+                            <span>Champagne Luxury</span>
+                        </label>
+                        <label class="theme-card" data-theme="theme-cyber-synth">
+                            <input type="radio" name="theme-choice" value="theme-cyber-synth" class="hidden-radio">
+                            <div class="theme-preview bg-cyber-synth"></div>
+                            <span>Cyber Synthwave</span>
+                        </label>
+                        <label class="theme-card" data-theme="theme-pastel-dreams">
+                            <input type="radio" name="theme-choice" value="theme-pastel-dreams" class="hidden-radio">
+                            <div class="theme-preview bg-pastel-dreams"></div>
+                            <span>Pastel Bubbly</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="birthday-message">Your Heartfelt Birthday Letter</label>
+                    <textarea id="birthday-message" rows="6"
+                        placeholder="Write something beautiful... For example: You make the world brighter just by being in it. Wishing you the happiest of birthdays, filled with laughter and all the things that make you smile!"></textarea>
+                    <div class="template-selector">
+                        <span>Quick Templates:</span>
+                        <button class="btn btn-sm btn-outline template-btn"
+                            data-text="Happy Birthday to the most amazing person I know! May your day be filled with love, laughter, and endless pieces of cake. Thank you for always bringing so much joy into my life. Here is to making many more memories together!">Warm
+                            & Sweet</button>
+                        <button class="btn btn-sm btn-outline template-btn"
+                            data-text="Happy Birthday, partner in crime! 🥳 To another year of inside jokes, late-night chats, and epic adventures. I am so lucky to have you. Hope your birthday is as awesome and hilarious as you are!">Funny
+                            & Friendly</button>
+                        <button class="btn btn-sm btn-outline template-btn"
+                            data-text="To the one who holds a special place in my heart. Happy Birthday! ♥ You make my life complete, and every single day with you is a gift. I hope today is as beautiful and extraordinary as you are to me. Cheers to you!">Romantic
+                            / Deep</button>
+                    </div>
+                </div>
+                <div class="step-nav">
+                    <button class="btn btn-secondary btn-prev" data-prev="1">← Back</button>
+                    <button class="btn btn-primary btn-next" data-next="3">Next Step →</button>
+                </div>
+            </section>
+            <!-- STEP 3: Memory Lane Timeline -->
+            <section class="wizard-step" id="step-3">
+                <h2>Add a Memory Lane Timeline 📸</h2>
+                <p class="step-description">Recall key moments, inside jokes, or milestones you've shared, linked to your pictures.</p>
+                <div class="timeline-creator-container">
+                    <!-- Memory 1 -->
+                    <div class="timeline-form-entry" data-index="0">
+                        <div class="entry-row">
+                            <div class="entry-thumbnail-col">
+                                <img src="image copy 3.png" alt="Photo 1" class="builder-thumb">
+                            </div>
+                            <div class="entry-fields-col">
+                                <div class="entry-header">
+                                    <h3>Memory 1 (with Photo 1)</h3>
+                                </div>
+                                <div class="entry-fields">
+                                    <div class="form-row">
+                                        <div class="form-group col-4">
+                                            <label>Year / Age</label>
+                                            <input type="text" class="memory-year" placeholder="e.g. 2024">
+                                        </div>
+                                        <div class="form-group col-8">
+                                            <label>Moment Title</label>
+                                            <input type="text" class="memory-title" placeholder="e.g. The Road Trip">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Quick story / Inside Joke</label>
+                                        <input type="text" class="memory-desc"
+                                            placeholder="e.g. When we got completely lost and ended up sleeping in the car, laughing all night.">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Memory 2 -->
+                    <div class="timeline-form-entry" data-index="1">
+                        <div class="entry-row">
+                            <div class="entry-thumbnail-col">
+                                <img src="image copy 4.png" alt="Photo 2" class="builder-thumb">
+                            </div>
+                            <div class="entry-fields-col">
+                                <div class="entry-header">
+                                    <h3>Memory 2 (with Photo 2)</h3>
+                                </div>
+                                <div class="entry-fields">
+                                    <div class="form-row">
+                                        <div class="form-group col-4">
+                                            <label>Year / Age</label>
+                                            <input type="text" class="memory-year" placeholder="e.g. College Days">
+                                        </div>
+                                        <div class="form-group col-8">
+                                            <label>Moment Title</label>
+                                            <input type="text" class="memory-title" placeholder="e.g. Late Night Coffee">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Quick story / Inside Joke</label>
+                                        <input type="text" class="memory-desc"
+                                            placeholder="e.g. Studying for exams but spending 90% of the time gossiping and drinking chai.">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Memory 3 -->
+                    <div class="timeline-form-entry" data-index="2">
+                        <div class="entry-row">
+                            <div class="entry-thumbnail-col">
+                                <img src="image copy 5.png" alt="Photo 3" class="builder-thumb">
+                            </div>
+                            <div class="entry-fields-col">
+                                <div class="entry-header">
+                                    <h3>Memory 3 (with Photo 3)</h3>
+                                </div>
+                                <div class="entry-fields">
+                                    <div class="form-row">
+                                        <div class="form-group col-4">
+                                            <label>Year / Age</label>
+                                            <input type="text" class="memory-year" placeholder="e.g. Graduation">
+                                        </div>
+                                        <div class="form-group col-8">
+                                            <label>Moment Title</label>
+                                            <input type="text" class="memory-title" placeholder="e.g. Big Day">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Quick story / Inside Joke</label>
+                                        <input type="text" class="memory-desc"
+                                            placeholder="e.g. Seeing you walk across the stage. I was screaming the loudest in the audience!">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Memory 4 -->
+                    <div class="timeline-form-entry" data-index="3">
+                        <div class="entry-row">
+                            <div class="entry-thumbnail-col">
+                                <img src="image copy 6.png" alt="Photo 4" class="builder-thumb">
+                            </div>
+                            <div class="entry-fields-col">
+                                <div class="entry-header">
+                                    <h3>Memory 4 (with Photo 4)</h3>
+                                </div>
+                                <div class="entry-fields">
+                                    <div class="form-row">
+                                        <div class="form-group col-4">
+                                            <label>Year / Age</label>
+                                            <input type="text" class="memory-year" placeholder="e.g. Future">
+                                        </div>
+                                        <div class="form-group col-8">
+                                            <label>Moment Title</label>
+                                            <input type="text" class="memory-title" placeholder="e.g. Next Chapters">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Quick story / Inside Joke</label>
+                                        <input type="text" class="memory-desc"
+                                            placeholder="e.g. I promise to stand by you for all the years and adventures to come.">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="step-nav">
+                    <button class="btn btn-secondary btn-prev" data-prev="2">← Back</button>
+                    <button class="btn btn-primary btn-next" data-next="4">Next Step →</button>
+                </div>
+            </section>
+            <!-- STEP 4: Virtual Surprise Gifts -->
+            <section class="wizard-step" id="step-4">
+                <h2>Customize the Virtual Surprise Gifts 🎁</h2>
+                <p class="step-description">We will create 3 interactive gifts. Tell us what they reveal when the
+                    recipient opens them.</p>
+                <div class="form-group">
+                    <label for="gift-cake-text">Gift 1: Blow the Birthday Cake</label>
+                    <p class="sub-label-helper">Interactive cake simulation! What wish prompt pops up after candles are
+                        blown out?</p>
+                    <input type="text" id="gift-cake-text"
+                        value="Now close your eyes, make a wish, and eat virtual cake! 🎂✨"
+                        placeholder="e.g. May all your dreams come true!">
+                </div>
+                <div class="form-group">
+                    <label for="gift-scratch-text">Gift 2: Scratch Card Message</label>
+                    <p class="sub-label-helper">They will scratch off a golden cover with their cursor. What secret is
+                        underneath?</p>
+                    <input type="text" id="gift-scratch-text"
+                        value="Coupon: Good for 1 Late-Night Coffee Date & Unlimited Hugs! ☕♥"
+                        placeholder="e.g. I owe you a fancy pizza dinner!">
+                </div>
+                <div class="form-group">
+                    <label for="gift-balloon-text">Gift 3: Balloon Popper Prize</label>
+                    <p class="sub-label-helper">A mini balloon popper game. What congratulatory message shows when they
+                        complete it?</p>
+                    <input type="text" id="gift-balloon-text"
+                        value="High score! You are officially the champion of balloons! 🎈🏆"
+                        placeholder="e.g. You rocked that! Have the best year ahead!">
+                </div>
+                <div class="step-nav">
+                    <button class="btn btn-secondary btn-prev" data-prev="3">← Back</button>
+                    <button class="btn btn-success" id="btn-generate">Create Magical Wish! 🪄</button>
+                </div>
+            </section>
+        </main>
+        <!-- SHARE LINK MODAL -->
+        <div id="share-modal" class="modal hidden">
+            <div class="modal-content glass-card animate-zoom">
+                <button class="modal-close" id="btn-close-share">&times;</button>
+                <h2>Your Magic Link is Ready! 🎉</h2>
+                <p>Send this link to the birthday star. Once they open it, they will see your personalized page with
+                    animations, music, and interactive surprises.</p>
+
+                <div class="share-url-container">
+                    <input type="text" id="share-url-input" readonly value="">
+                    <button class="btn btn-primary" id="btn-copy-url">Copy Link</button>
+                </div>
+                <span id="copy-toast" class="toast hidden">Copied to clipboard! ✓</span>
+                <div class="modal-actions">
+                    <a href="#" id="preview-wish-link" class="btn btn-secondary" target="_blank">Preview Wish ➔</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 3. VIEWER MODE CONTAINER -->
+    <div id="viewer-container" class="container viewer-container hidden">
+        <!-- Floating Audio Control & Controls -->
+        <div class="floating-controls">
+            <button id="btn-music-toggle" class="control-btn" aria-label="Toggle Music" title="Play/Mute Music">
+                <svg class="icon-music" viewBox="0 0 24 24" width="24" height="24">
+                    <path fill="currentColor"
+                        d="M12,3v10.55c-0.59-0.34-1.27-0.55-2-0.55c-2.21,0-4,1.79-4,4s1.79,4,4,4s4-1.79,4-4V7h6V3H12z" />
+                </svg>
+                <span class="music-slash hidden" id="music-slash-bar"></span>
+            </button>
+            <button id="btn-viewer-confetti" class="control-btn" aria-label="Throw Confetti"
+                title="Burst Confetti">🎉</button>
+            <a href="index.html" id="btn-create-own" class="control-btn text-btn"
+                title="Create your own birthday wish page">Build Yours 🛠</a>
+        </div>
+        <!-- Main Header Card -->
+        <header class="viewer-header">
+            <div class="profile-frame animate-float">
+                <div class="star-avatar">🎂</div>
+            </div>
+            <h1 class="main-greeting" id="viewer-greeting">Happy Birthday!</h1>
+            <div class="confetti-subtext" id="viewer-countdown-subtext">Celebrating your special day! ✨</div>
+        </header>
+        <main class="viewer-content">
+            <!-- 3.1 Personal Letter Card -->
+            <section class="viewer-section animate-on-scroll" id="section-message">
+                <div class="glass-card letter-card">
+                    <div class="card-ribbon">⭐</div>
+                    <h2 class="section-title">A Message For You</h2>
+                    <div class="letter-body" id="viewer-message">
+                        <!-- Typist effect or regular text goes here -->
+                    </div>
+                    <div class="letter-signature" id="viewer-signature">
+                        With love & hugs, <br>
+                        <span class="sig-name" id="viewer-author-name">Your Special Someone</span>
+                    </div>
+                </div>
+            </section>
+            <!-- 3.2 Memory Lane Timeline (Now Carousel) -->
+            <section class="viewer-section animate-on-scroll hidden" id="section-timeline">
+                <h2 class="section-title text-center">Our Memory Lane 🐾</h2>
+                <div class="carousel-container">
+                    <div class="carousel-track-container">
+                        <div class="carousel-track" id="viewer-carousel-track">
+                            <!-- Carousel slides injected dynamically by JS -->
+                        </div>
+                    </div>
+                    <!-- Navigation Buttons -->
+                    <button class="carousel-btn btn-left" id="carousel-btn-left" aria-label="Previous Slide">‹</button>
+                    <button class="carousel-btn btn-right" id="carousel-btn-right" aria-label="Next Slide">›</button>
+                    <!-- Indicators -->
+                    <div class="carousel-nav" id="carousel-nav-dots">
+                        <!-- Navigation dots injected dynamically -->
+                    </div>
+                </div>
+            </section>
+            <!-- 3.3 Virtual Surprise Gifts Drawer -->
+            <section class="viewer-section animate-on-scroll">
+                <h2 class="section-title text-center">Open Your Interactive Gifts 🎁</h2>
+                <p class="section-subtitle text-center">Click on each box to reveal your dynamic surprises!</p>
+
+                <div class="gifts-grid">
+                    <!-- Gift 1 Card -->
+                    <div class="gift-box-card" id="gift-card-cake">
+                        <div class="gift-box-visual animate-wiggle">
+                            <div class="gift-lid"></div>
+                            <div class="gift-body"></div>
+                            <div class="gift-ribbon-v"></div>
+                            <div class="gift-ribbon-h"></div>
+                            <div class="gift-bow"></div>
+                        </div>
+                        <h3>Gift 1: Make a Wish</h3>
+                        <p>Blow out the birthday candles.</p>
+                        <button class="btn btn-sm btn-primary btn-open-gift" data-gift="cake">Unwrap 🕯</button>
+                    </div>
+                    <!-- Gift 2 Card -->
+                    <div class="gift-box-card" id="gift-card-scratch">
+                        <div class="gift-box-visual animate-wiggle delay-1">
+                            <div class="gift-lid"></div>
+                            <div class="gift-body"></div>
+                            <div class="gift-ribbon-v"></div>
+                            <div class="gift-ribbon-h"></div>
+                            <div class="gift-bow"></div>
+                        </div>
+                        <h3>Gift 2: Scratch Card</h3>
+                        <p>Reveal what's hidden underneath.</p>
+                        <button class="btn btn-sm btn-primary btn-open-gift" data-gift="scratch">Unwrap ✉</button>
+                    </div>
+                    <!-- Gift 3 Card -->
+                    <div class="gift-box-card" id="gift-card-balloon">
+                        <div class="gift-box-visual animate-wiggle delay-2">
+                            <div class="gift-lid"></div>
+                            <div class="gift-body"></div>
+                            <div class="gift-ribbon-v"></div>
+                            <div class="gift-ribbon-h"></div>
+                            <div class="gift-bow"></div>
+                        </div>
+                        <h3>Gift 3: Pop & Cheer</h3>
+                        <p>Challenge the floating balloons.</p>
+                        <button class="btn btn-sm btn-primary btn-open-gift" data-gift="balloon">Unwrap 🎈</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+        <!-- Viewer Footer -->
+        <footer class="viewer-footer">
+            <p>Made with love & magic. Tap the cake to blow candles anytime!</p>
+        </footer>
+        <!-- INTERACTIVE SURPRISE MODAL -->
+        <div id="game-modal" class="modal game-modal hidden">
+            <div class="modal-content game-modal-content glass-card animate-zoom">
+                <button class="modal-close" id="btn-close-game">&times;</button>
+
+                <!-- Game 1 Screen: Cake Candle Blowing -->
+                <div id="game-screen-cake" class="game-screen hidden">
+                    <h2>Blow out the Candles! 🕯🎂</h2>
+                    <p class="game-instructions">Hover or click on the glowing candle flames to extinguish them.</p>
+                    <div class="canvas-game-container">
+                        <canvas id="cake-canvas" width="400" height="400"></canvas>
+                    </div>
+                    <div class="game-result-overlay hidden" id="cake-result">
+                        <div class="result-box glass-card animate-bounce">
+                            <h3>✨ Happy Birthday! ✨</h3>
+                            <p id="cake-custom-msg"></p>
+                            <button class="btn btn-primary" id="btn-cake-reset">Blow Again 🍰</button>
+                        </div>
+                    </div>
+                </div>
+                <!-- Game 2 Screen: Scratch Card -->
+                <div id="game-screen-scratch" class="game-screen hidden">
+                    <h2>Scratch Your Special Ticket 🎟</h2>
+                    <p class="game-instructions">Use your cursor or finger to scratch off the golden coating to reveal
+                        your card!</p>
+                    <div class="canvas-game-container">
+                        <div class="scratch-card-underlay" id="scratch-underlay-content">
+                            <!-- Custom text goes here -->
+                        </div>
+                        <canvas id="scratch-canvas" width="360" height="200"></canvas>
+                    </div>
+                    <div class="scratch-reveal-info text-center">
+                        <button class="btn btn-sm btn-outline hidden" id="btn-scratch-reset">Reset Scratch Card</button>
+                    </div>
+                </div>
+                <!-- Game 3 Screen: Balloon Popper -->
+                <div id="game-screen-balloon" class="game-screen hidden">
+                    <h2>Pop the Balloons! 🎈</h2>
+                    <div class="game-stats-row">
+                        <div class="stat-item">Score: <span id="balloon-score">0</span></div>
+                        <div class="stat-item">Time: <span id="balloon-timer">15</span>s</div>
+                    </div>
+                    <div class="canvas-game-container balloon-game-area" id="balloon-game-container">
+                        <canvas id="balloon-canvas" width="400" height="380"></canvas>
+                    </div>
+                    <div class="game-result-overlay hidden" id="balloon-result">
+                        <div class="result-box glass-card animate-bounce">
+                            <h3>🎈 Game Complete! 🎈</h3>
+                            <p id="balloon-custom-msg"></p>
+                            <button class="btn btn-primary" id="btn-balloon-reset">Play Again 🎮</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="app.js"></script>
+</body>
+
+</html>
